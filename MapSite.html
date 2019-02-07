@@ -4,16 +4,132 @@
     <link rel="shortcut icon" type="image/x-icon" href="/mappingSite/favicon/favicon.ico">
     <style>
       #map{
-        height: 400px;
-        width: 50%;
+        height: 500px;
+        width: 80%;
+        margin-left: 10%;
+        padding: 0 0 0 0;
+
           }
+
+
+          .myButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+	box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #b8e356), color-stop(1, #a5cc52));
+	background:-moz-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
+	background:-webkit-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
+	background:-o-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
+	background:-ms-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
+	background:linear-gradient(to bottom, #b8e356 5%, #a5cc52 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8e356', endColorstr='#a5cc52',GradientType=0);
+	background-color:#b8e356;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #83c41a;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #86ae47;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a5cc52), color-stop(1, #b8e356));
+	background:-moz-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
+	background:-webkit-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
+	background:-o-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
+	background:-ms-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
+	background:linear-gradient(to bottom, #a5cc52 5%, #b8e356 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a5cc52', endColorstr='#b8e356',GradientType=0);
+	background-color:#a5cc52;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+body{font-family:Arial;
+font-size:15px;
+color:#ffffff;
+background-image: url("background.jpg");
+background-size:cover;}
+
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+
+label{
+  font-size:18px;
+}
+
     </style>
   </head>
-  <body>
+  <body style="margin:0 0 0 0;padding: 0 0 0 0; background-color:green">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-    <h3>The most mapiest map you could possibly map</h3>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+<div style = "text-align:center; width:80%; margin:0% 10% 0% 10%;padding: 10px 0 0 0; background-color:rgba(0,0,0,0.8);">
+    <h1>Registered NPOs in South Africa</h1>
     <!--The div element for the map -->
     <div id="map" style="border-style:solid"></div>
+    </br>
+    <br/>
+
+      <div class = "row" style="width:80%; margin:0% 10% 0% 10%;background-color:rgba(112, 111, 111,0.7); padding: 16px;">
+         <div class="column">
+          <label for = "SectorFilter">Select a sector to filter the map</label><br/><br/>
+    <select id="SectorFilter" onchange="filterSectorMarkers(this.value);">
+      <option value="">All sectors</option>
+      <option value="Social Services">Social Services</option>
+      <option value="Law, Advocacy, and Politics">Law, Advocacy, and Politics</option>
+      <option value="Development and Housing">Development and Housing</option>
+      <option value="Education and Research">Education and Research</option>
+      <option value="Business and Professional Associations, Unions">Business and Professional Associations</option>
+      <option value="Religion">Religion</option>
+      <option value="Environment">Environment</option>
+      <option value="Health">Health</option>
+      <option value="Culture and Recreation">Culture and Recreation</option>
+      <option value="Philanthropic Intermediaries and Voluntarism Promotion">Philanthropic Intermediaries</option>
+      <option value="International">International</option>
+    </select>
+
+  </div> <div class="column">
+    <label for = "pac-input">Search for an Organisation</label><br/><br/>
+
+      <input id = "SB" name = "SearchBox" placeholder="Enter Organisation Name " class="placeholder-active"><br/><br/>
+
+    <input id = "OrgNameSearchButton" class="myButton" type = "button" value = "Search Organisations" onclick = "searchMap()">
+    <br/>
+    <br/>
+    <br/>
+    <input class="myButton" type = "button" value = "Clear Search" onclick = "clearFilters()">
+   </div><div class="column">
+    <label for = "pac-input">Search for a geographic location</label><br/><br/>
+    <input id="pac-input" class="controls" type="text" placeholder="Enter a location"><br/><br/>
+    <input id = "LocationSearchButton" class="myButton" type = "button" value = "Search Locations" onclick = "">
+</div></div>
+  </div>
+
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ2YPye-O4etvh2W_I7e-82JkV87-Y3Bo&libraries=places&callback=initMap"></script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script>
       var map;
       var markers = [];
@@ -115,7 +231,7 @@
       if (status === 'OK')
       {
         //resultsMap.setCenter(results[0].geometry.location);
-        
+
         markersSearch.push(new google.maps.Marker({
           map: resultsMap,
           icon: icon,
@@ -248,39 +364,8 @@
         google.maps.event.addListener(marker, 'click', function (){infoWindow.open(map, marker);});
       }
     </script>
-    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-    </br>
-    <select id="SectorFilter" onchange="filterSectorMarkers(this.value);">
-      <option value="">All sectors</option>
-      <option value="Social Services">Social Services</option>
-      <option value="Law, Advocacy, and Politics">Law, Advocacy, and Politics</option>
-      <option value="Development and Housing">Development and Housing</option>
-      <option value="Education and Research">Education and Research</option>
-      <option value="Business and Professional Associations, Unions">Business and Professional Associations, Unions</option>
-      <option value="Religion">Religion</option>
-      <option value="Environment">Environment</option>
-      <option value="Health">Health</option>
-      <option value="Culture and Recreation">Culture and Recreation</option>
-      <option value="Philanthropic Intermediaries and Voluntarism Promotion">Philanthropic Intermediaries and Voluntarism Promotion</option>
-      <option value="International">International</option>
-    </select>
-    <label for = "SectorFilter">Select a sector to filter the map</label>
-    </br>
-    </br>
-    <label for = "pac-input">Search for an Organisation</label>
-    <input id = "SB" name = "SearchBox" placeholder="Enter Organisation Name " class="placeholder-active">
-    <input id = "OrgNameSearchButton" type = "button" value = "Search Organisations" onclick = "searchMap()">
-    </br>
-  </br>
-    <label for = "pac-input">Search for a geographic location</label>
-    <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
-    <input id = "LocationSearchButton" type = "button" value = "Search Locations" onclick = "">
-    <br/>
-    <br/>
-    <input type = "button" value = "Clear Search" onclick = "clearFilters()">
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ2YPye-O4etvh2W_I7e-82JkV87-Y3Bo&libraries=places&callback=initMap"></script>
-    <script>
+      <script>
     // Get the input field
 var input = document.getElementById("SB");
 
