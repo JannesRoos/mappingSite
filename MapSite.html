@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #map{
+        height: 400px;
+        width: 50%;
+          }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <h3>The most mapiest map you could possibly map</h3>
+    <!--The div element for the map -->
+    <div id="map" style="border-style:solid"></div>
+    <script>
+      var map;
+      var markers = [];
+      var orgName
+      var markerClusterer
+      var markersSearch = [];
+
+      filterSectorMarkers = function(category)
+      {
+        var newMarkers = [];
+
+        for (i = 0; i < markers.length; i++)
+        {
+          var fillmarker = markers[i];
+
+          if(fillmarker.sector == category || category.length == 0)
+          {
+            fillmarker.setVisible(true);
+            newMarkers.push(markers[i]);
+          }
+          else
+          {
+            fillmarker.setVisible(false);
+          }
+        }
+        console.log(newMarkers);
+        markClustersReset(newMarkers);
+      }
+
+      searchMap = function()
+      {
+        var rbutton = document.querySelector('[name="SearchOption"]:checked').value;
+        var box = document.querySelector('[name="SearchBox"]').value.toLowerCase();
+        console.log(rbutton);
+        console.log(box);
+        var newMarkers = [];
+
+       for (i = 0; i < markers.length; i++)
+       {
+          var fillmarker = markers[i];
+          orgName = fillmarker.title.toLowerCase();
+          if(orgName.indexOf(box)!=-1 || box.length == 0)
+          {
+              fillmarker.setVisible(true);
+              newMarkers.push(markers[i]);
+          }
+
+          else
+          {
+              fillmarker.setVisible(false);
+          }
+        }
+        console.log(newMarkers);
+        markClustersReset(newMarkers);
+      }
+
+      markClustersReset = function(markerss)
+      {
+        if (markerClusterer)
+        {
+					markerClusterer.clearMarkers();
+					markerClusterer.addMarkers(markerss);
+        }
+      }
+
+      clearFilters = function()
+      {
+        markersSearch.forEach(function(marker)
+        {
+          marker.setMap(null);
+        });
+        if (markerClusterer)
+        {
+          markerClusterer.clearMarkers();
+          markerClusterer.addMarkers(markers)
+        }
+      }
+
+      function initMap()
+      {
+        map = new google.maps.Map(document.getElementById('map'), {zoom: 5, center: new google.maps.LatLng(-28.732856, 24.750684)});
+        var script = document.createElement('script');
+        script.src = 'ALLData.geojson';
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+        markersSearch = [];
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markersSearch.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place)
+          {
+            if (!place.geometry)
+            {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon =
+            {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+            // Create a marker for each place.
+            markersSearch.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+          });
+        }
+
+
+      window.eqfeed_callback = function(results)
+      {
+        for (var i = 0; i < results.features.length; i++)
+        {
+          var coords = results.features[i].geometry.coordinates;
+          var latLng = new google.maps.LatLng(coords[1],coords[0]);
+          var titleText = results.features[i]['properties']['NameOfOrganization'];
+          var sectors = results.features[i]['properties']['Sector'];
+          var emails = results.features[i]['properties']['email'];
+
+          if(emails==""||emails==null||emails=="NULL")
+          {
+            emails = "No emailaddress";
+          }
+          var tellnumbers = results.features[i]['properties']['Telephone'];
+
+          if(tellnumbers==""||tellnumbers==null||tellnumbers=="NULL")
+          {
+            tellnumbers = "No contact number";
+          }
+          var faxnumber = results.features[i]['properties']['Fax'];
+
+          if(faxnumber==""||faxnumber==null||faxnumber=="NULL")
+          {
+            faxnumber = "No fac number";
+          }
+          var desciptions = results.features[i]['properties']['Theme1'];
+          var marker = new google.maps.Marker({position: latLng, title: titleText, map: map, sector:sectors});
+          var markerInfo = "<div><h3>" + titleText + "</h3>Sector: "+ sectors + "<br>Email: "+emails+"<br/>Contact Number: "+tellnumbers+"<br/>Fax: "+faxnumber+"<br/>Description: "+desciptions+"</div>";
+          addInfoWindow(marker, markerInfo);
+          markers.push(marker);
+        }
+        markerClusterer = new MarkerClusterer(map, markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+      }
+
+      function addInfoWindow(marker, content)
+      {
+        var infoWindow = new google.maps.InfoWindow({content: content});
+        google.maps.event.addListener(marker, 'click', function (){infoWindow.open(map, marker);});
+      }
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    </br>
+    <select id="SectorFilter" onchange="filterSectorMarkers(this.value);">
+      <option value="">All sectors</option>
+      <option value="Social Services">Social Services</option>
+      <option value="Law, Advocacy, and Politics">Law, Advocacy, and Politics</option>
+      <option value="Development and Housing">Development and Housing</option>
+      <option value="Education and Research">Education and Research</option>
+      <option value="Business and Professional Associations, Unions">Business and Professional Associations, Unions</option>
+      <option value="Religion">Religion</option>
+      <option value="Environment">Environment</option>
+      <option value="Health">Health</option>
+      <option value="Culture and Recreation">Culture and Recreation</option>
+      <option value="Philanthropic Intermediaries and Voluntarism Promotion">Philanthropic Intermediaries and Voluntarism Promotion</option>
+      <option value="International">International</option>
+    </select>
+    <label for = "SectorFilter">Select a sector to filter the map</label>
+    </br>
+    </br>
+    <input id = "SB" name = "SearchBox" placeholder="Enter Organisation Name " class="placeholder-active">
+    </br>
+    <input type = "button" value = "Search" onclick = "searchMap()">
+    <input type = "button" value = "Clear Search" onclick = "clearFilters()">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ2YPye-O4etvh2W_I7e-82JkV87-Y3Bo&libraries=places&callback=initMap"></script>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  </body>
+</html>
