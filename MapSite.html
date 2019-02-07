@@ -17,9 +17,14 @@
     <script>
       var map;
       var markers = [];
-      var orgName
-      var markerClusterer
+      var orgName;
+      var markerClusterer;
       var markersSearch = [];
+      var icon;
+
+
+
+
 
       filterSectorMarkers = function(category)
       {
@@ -48,6 +53,7 @@
         var box = document.querySelector('[name="SearchBox"]').value.toLowerCase();
         console.log(box);
         var newMarkers = [];
+          var bounds = new google.maps.LatLngBounds();
 
        for (i = 0; i < markers.length; i++)
        {
@@ -57,13 +63,17 @@
           {
               fillmarker.setVisible(true);
               newMarkers.push(markers[i]);
-          }
 
+                bounds.extend(fillmarker.position);
+
+
+          }
           else
           {
               fillmarker.setVisible(false);
           }
         }
+        map.fitBounds(bounds);
         console.log(newMarkers);
         markClustersReset(newMarkers);
       }
@@ -90,6 +100,41 @@
         }
       }
 
+
+
+      function geocodeAddress(geocoder, resultsMap) {
+        markersSearch = [];
+        // Clear out the old markers.
+        markersSearch.forEach(function(marker) {
+          marker.setMap(null);
+        });
+    var address = document.getElementById('pac-input').value;
+    geocoder.geocode({'address': address}, function(results, status)
+    {
+      var bounds = new google.maps.LatLngBounds();
+      if (status === 'OK')
+      {
+        //resultsMap.setCenter(results[0].geometry.location);
+        
+        markersSearch.push(new google.maps.Marker({
+          map: resultsMap,
+          icon: icon,
+          title: results[0].name,
+          position: results[0].geometry.location
+        }));
+        bounds.extend(markersSearch[0].position);
+      }
+      else
+      {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+      map.fitBounds(bounds);
+    });
+  }
+
+
+
+
       function initMap()
       {
         map = new google.maps.Map(document.getElementById('map'), {zoom: 5, center: new google.maps.LatLng(-28.732856, 24.750684)});
@@ -97,10 +142,18 @@
         script.src = 'allData.geojson';
         document.getElementsByTagName('head')[0].appendChild(script);
 
+
+        var geocoder = new google.maps.Geocoder();
+
+    document.getElementById('LocationSearchButton').addEventListener('click', function() {
+      geocodeAddress(geocoder, map);
+    });
+
+
         // Create the search box and link it to the UI element.
         var input = document.getElementById('pac-input');
         var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function() {
@@ -214,11 +267,33 @@
     <label for = "SectorFilter">Select a sector to filter the map</label>
     </br>
     </br>
+    <label for = "pac-input">Search for an Organisation</label>
     <input id = "SB" name = "SearchBox" placeholder="Enter Organisation Name " class="placeholder-active">
+    <input id = "OrgNameSearchButton" type = "button" value = "Search Organisations" onclick = "searchMap()">
     </br>
-    <input type = "button" value = "Search" onclick = "searchMap()">
+  </br>
+    <label for = "pac-input">Search for a geographic location</label>
+    <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
+    <input id = "LocationSearchButton" type = "button" value = "Search Locations" onclick = "">
+    <br/>
+    <br/>
     <input type = "button" value = "Clear Search" onclick = "clearFilters()">
+
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ2YPye-O4etvh2W_I7e-82JkV87-Y3Bo&libraries=places&callback=initMap"></script>
-    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <script>
+    // Get the input field
+var input = document.getElementById("SB");
+
+// Execute a function when the user releases a key on the keyboard
+input.addEventListener("keyup", function(event) {
+// Cancel the default action, if needed
+event.preventDefault();
+// Number 13 is the "Enter" key on the keyboard
+if (event.keyCode === 13) {
+  // Trigger the button element with a click
+  document.getElementById("OrgNameSearchButton").click();
+}
+});
+</script>
   </body>
 </html>
