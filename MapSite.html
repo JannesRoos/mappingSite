@@ -2,159 +2,172 @@
 <html>
   <head>
     <link rel="shortcut icon" type="image/x-icon" href="/mappingSite/favicon/favicon.ico">
-    <style>
-      #map{
+        <style>
+      #map
+      {
         height: 500px;
         width: 80%;
         margin-left: 10%;
         margin-right: 10%;
         padding: 0 0 0 0;
+        color:black;
+        text-align:left;
+      }
+      .myButton
+      {
+      	-moz-box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+      	-webkit-box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+      	box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+      	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #b8e356), color-stop(1, #a5cc52));
+      	background:-moz-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
+      	background:-webkit-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
+      	background:-o-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
+      	background:-ms-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
+      	background:linear-gradient(to bottom, #b8e356 5%, #a5cc52 100%);
+      	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8e356', endColorstr='#a5cc52',GradientType=0);
+      	background-color:#b8e356;
+      	-moz-border-radius:6px;
+      	-webkit-border-radius:6px;
+      	border-radius:6px;
+      	border:1px solid #83c41a;
+      	display:inline-block;
+      	cursor:pointer;
+      	color:#ffffff;
+      	font-family:Arial;
+      	font-size:18px;
+      	font-weight:bold;
+      	padding:6px 24px;
+      	text-decoration:none;
+      	text-shadow:0px 1px 0px #86ae47;
+      }
+      .myButton:hover
+      {
+      	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a5cc52), color-stop(1, #b8e356));
+      	background:-moz-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
+      	background:-webkit-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
+      	background:-o-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
+      	background:-ms-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
+      	background:linear-gradient(to bottom, #a5cc52 5%, #b8e356 100%);
+      	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a5cc52', endColorstr='#b8e356',GradientType=0);
+      	background-color:#a5cc52;
+      }
+      .myButton:active
+      {
+      	position:relative;
+      	top:1px;
+      }
+      body
+      {
+        font-family:Arial;
+        font-size:14px;
+        color:#ffffff;
+        background-image: url("background.jpg");
+        min-height: 100%;
+        background-position: center;
+        background-size: cover;
+        background-color:black;
+      }
+      html, body
+      {
+        padding: 0;
+        margin: 0;
+      }
+      html
+      {
+        height: 100%;
+      }
+      .column
+      {
+        float: left;
+        width: 33.33%;
+      }
+      .row:after
+      {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      @media screen and (max-width: 1850px)
+      {
+        .column
+        {
+          width: 100%;
+        }
+      }
+      .mainWindow
+      {
+        text-align:center;
+        width:80%;
+        margin:0% 10% 0% 10%;
+        padding: 10px 0 0 0;
+        background-color:rgba(0,0,0,0.8);
+        min-width:420px;
+      }
+      @media screen and (max-width: 1150px)
+      {
+        .mainWindow
+        {
+          width: 100%;
+          margin:0;
+        }
+      }
 
-          }
-
-
-          .myButton {
-	-moz-box-shadow:inset 0px 1px 0px 0px #d9fbbe;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #d9fbbe;
-	box-shadow:inset 0px 1px 0px 0px #d9fbbe;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #b8e356), color-stop(1, #a5cc52));
-	background:-moz-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
-	background:-webkit-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
-	background:-o-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
-	background:-ms-linear-gradient(top, #b8e356 5%, #a5cc52 100%);
-	background:linear-gradient(to bottom, #b8e356 5%, #a5cc52 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8e356', endColorstr='#a5cc52',GradientType=0);
-	background-color:#b8e356;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #83c41a;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #86ae47;
-}
-.myButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a5cc52), color-stop(1, #b8e356));
-	background:-moz-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
-	background:-webkit-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
-	background:-o-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
-	background:-ms-linear-gradient(top, #a5cc52 5%, #b8e356 100%);
-	background:linear-gradient(to bottom, #a5cc52 5%, #b8e356 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a5cc52', endColorstr='#b8e356',GradientType=0);
-	background-color:#a5cc52;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-}
-
-body{font-family:Arial;
-font-size:15px;
-color:#ffffff;
-background-image: url("background.jpg");
-height: 100%;
-background-position: center;
-background-repeat: no-repeat;
-background-size: cover;}
-
-
-
-.column {
-  float: left;
-  width: 33.33%;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-@media screen and (max-width: 1150px) {
-  .column {
-    width: 100%;
-  }
-}
-
-.mainWindow{text-align:center;
-  width:80%;
-  margin:0% 10% 0% 10%;
-  padding: 10px 0 0 0;
-   background-color:rgba(0,0,0,0.8);
- min-width:420px;}
-
-@media screen and (max-width: 1150px) {
-  .mainWindow {
-    width: 100%;
-    margin:0;
-  }
-}
-
-label{
-  font-size:18px;
-}
-
+      label
+      {
+        font-size:25px;
+      }
     </style>
   </head>
-  <body style="margin:0 0 0 0;padding: 0 0 0 0; background-color:green">
+  <body>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-<div class = "mainWindow">
-    <h1>Registered NPOs in South Africa</h1>
-    <!--The div element for the map -->
-    <div id="map" style="border-style:solid"></div>
-    </br>
-    <br/>
-<div style="width:80%; margin:0% 10% 0% 10%;background-color:rgba(112, 111, 111,0.7); padding: 16px 0px;">
-      <div class = "row" >
-         <div class="column">
-          <label for = "SectorFilter">Select a sector to filter the map</label><br/><br/>
-
-
-
-    <select id="SectorFilter" onchange="filterSectorMarkers(this.value);">
-      <option value="">All sectors</option>
-      <option value="Social Services">Social Services</option>
-      <option value="Law, Advocacy, and Politics">Law, Advocacy, and Politics</option>
-      <option value="Development and Housing">Development and Housing</option>
-      <option value="Education and Research">Education and Research</option>
-      <option value="Business and Professional Associations, Unions">Business and Professional Associations</option>
-      <option value="Religion">Religion</option>
-      <option value="Environment">Environment</option>
-      <option value="Health">Health</option>
-      <option value="Culture and Recreation">Culture and Recreation</option>
-      <option value="Philanthropic Intermediaries and Voluntarism Promotion">Philanthropic Intermediaries</option>
-      <option value="International">International</option>
-    </select>
-<br/><br/><br/>
-  </div>
-  <div class="column">
-<label for = "pac-input">Search for an Organisation</label><br/><br/>
-      <input id = "SB" name = "SearchBox" placeholder="Enter Organisation Name " class="placeholder-active"><br/><br/>
-    <input id = "OrgNameSearchButton" class="myButton" type = "button" value = "Search Organisations" onclick = "searchMap()">
-<br/><br/><br/>
-  </div>
-  <div class="column">
-     <label for = "pac-input">Search for a geographic location</label><br/><br/>
-    <input id="pac-input" class="controls" type="text" placeholder="Enter a location"><br/><br/>
-    <input id = "LocationSearchButton" class="myButton" type = "button" value = "Search Locations" onclick = "">
-</div>
-</div>
-<br/>
-<div class = "row" >
-   <div class="column">&nbsp;</div>
-   <div class="column"><input class="myButton" type = "button" value = "Clear Search" onclick = "clearFilters()"></div>
-   <div class="column">&nbsp;</div>
-  </div>
-</div>
-
-
+    <div class = "mainWindow">
+      <h1>Registered NPOs in South Africa</h1>
+      <!--The div element for the map -->
+      <div id="map" style="border-style:solid"></div>
+      </br>
+      <br/>
+      <div style="width:80%; margin:0% 10% 0% 10%;background-color:rgba(112, 111, 111,0.7); padding: 16px 0px;">
+        <div class = "row" >
+           <div class="column">
+            <label for = "SectorFilter">Select a sector to filter the map</label><br/><br/>
+            <select id="SectorFilter" onchange="filterSectorMarkers(this.value);" style="font-size:18pt">
+              <option value="">All sectors</option>
+              <option value="Social Services">Social Services</option>
+              <option value="Law, Advocacy, and Politics">Law, Advocacy, and Politics</option>
+              <option value="Development and Housing">Development and Housing</option>
+              <option value="Education and Research">Education and Research</option>
+              <option value="Business and Professional Associations, Unions">Business and Professional Associations</option>
+              <option value="Religion">Religion</option>
+              <option value="Environment">Environment</option>
+              <option value="Health">Health</option>
+              <option value="Culture and Recreation">Culture and Recreation</option>
+              <option value="Philanthropic Intermediaries and Voluntarism Promotion">Philanthropic Intermediaries</option>
+              <option value="International">International</option>
+            </select>
+            <br/><br/><br/>
+          </div>
+          <div class="column">
+            <label for = "pac-input">Search for an Organisation</label><br/><br/>
+            <input id = "SB" name = "SearchBox" style="font-size:18pt"placeholder="Enter Organisation Name " class="placeholder-active"><br/><br/>
+            <input id = "OrgNameSearchButton" class="myButton" type = "button" value = "Search Organisations" onclick = "searchMap()">
+            <br/><br/><br/>
+          </div>
+          <div class="column">
+            <label for = "pac-input">Search for a geographic location</label><br/><br/>
+            <input id="pac-input" class="controls" type="text" style="font-size:18pt" placeholder="Enter a location"><br/><br/>
+            <input id = "LocationSearchButton" class="myButton" type = "button" value = "Search Locations" onclick = "">
+          </div>
+        </div>
+        <br/>
+        <div class = "row" >
+          <div class="column">&nbsp;</div>
+          <div class="column"><input class="myButton" type = "button" value = "Clear Search" onclick = "clearFilters()"></div>
+          <div class="column">&nbsp;</div>
+        </div>
+      </div>
+      <br/>
+    </div>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ2YPye-O4etvh2W_I7e-82JkV87-Y3Bo&libraries=places&callback=initMap"></script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script>
@@ -164,11 +177,6 @@ label{
       var markerClusterer;
       var markersSearch = [];
       var icon;
-
-
-
-
-
       filterSectorMarkers = function(category)
       {
         var newMarkers = [];
@@ -196,7 +204,7 @@ label{
         var box = document.querySelector('[name="SearchBox"]').value.toLowerCase();
         console.log(box);
         var newMarkers = [];
-          var bounds = new google.maps.LatLngBounds();
+        var bounds = new google.maps.LatLngBounds();
 
        for (i = 0; i < markers.length; i++)
        {
@@ -206,10 +214,7 @@ label{
           {
               fillmarker.setVisible(true);
               newMarkers.push(markers[i]);
-
-                bounds.extend(fillmarker.position);
-
-
+              bounds.extend(fillmarker.position);
           }
           else
           {
@@ -243,40 +248,34 @@ label{
         }
       }
 
-
-
-      function geocodeAddress(geocoder, resultsMap) {
+      function geocodeAddress(geocoder, resultsMap)
+      {
         markersSearch = [];
-        // Clear out the old markers.
-        markersSearch.forEach(function(marker) {
+        markersSearch.forEach(function(marker)
+        {
           marker.setMap(null);
         });
-    var address = document.getElementById('pac-input').value;
-    geocoder.geocode({'address': address}, function(results, status)
-    {
-      var bounds = new google.maps.LatLngBounds();
-      if (status === 'OK')
-      {
-        //resultsMap.setCenter(results[0].geometry.location);
-
-        markersSearch.push(new google.maps.Marker({
-          map: resultsMap,
-          icon: icon,
-          title: results[0].name,
-          position: results[0].geometry.location
-        }));
-        bounds.extend(markersSearch[0].position);
+        var address = document.getElementById('pac-input').value;
+        geocoder.geocode({'address': address}, function(results, status)
+        {
+          var bounds = new google.maps.LatLngBounds();
+          if (status === 'OK')
+          {
+            markersSearch.push(new google.maps.Marker({
+              map: resultsMap,
+              icon: icon,
+              title: results[0].name,
+              position: results[0].geometry.location
+            }));
+            bounds.extend(markersSearch[0].position);
+          }
+          else
+          {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+          map.fitBounds(bounds);
+        });
       }
-      else
-      {
-        alert('Geocode was not successful for the following reason: ' + status);
-      }
-      map.fitBounds(bounds);
-    });
-  }
-
-
-
 
       function initMap()
       {
@@ -288,33 +287,28 @@ label{
 
         var geocoder = new google.maps.Geocoder();
 
-    document.getElementById('LocationSearchButton').addEventListener('click', function() {
-      geocodeAddress(geocoder, map);
-    });
-
-
-        // Create the search box and link it to the UI element.
+        document.getElementById('LocationSearchButton').addEventListener('click', function()
+        {
+          geocodeAddress(geocoder, map);
+        });
         var input = document.getElementById('pac-input');
         var searchBox = new google.maps.places.SearchBox(input);
-        //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function() {
+        map.addListener('bounds_changed', function()
+        {
           searchBox.setBounds(map.getBounds());
         });
         markersSearch = [];
-        searchBox.addListener('places_changed', function() {
+        searchBox.addListener('places_changed', function()
+        {
           var places = searchBox.getPlaces();
 
           if (places.length == 0) {
             return;
           }
-
-          // Clear out the old markers.
-          markersSearch.forEach(function(marker) {
+          markersSearch.forEach(function(marker)
+          {
             marker.setMap(null);
           });
-          // For each place, get the icon, name and location.
           var bounds = new google.maps.LatLngBounds();
           places.forEach(function(place)
           {
@@ -331,7 +325,6 @@ label{
               anchor: new google.maps.Point(17, 34),
               scaledSize: new google.maps.Size(25, 25)
             };
-            // Create a marker for each place.
             markersSearch.push(new google.maps.Marker({
               map: map,
               icon: icon,
@@ -339,7 +332,6 @@ label{
               position: place.geometry.location
             }));
             if (place.geometry.viewport) {
-              // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
             } else {
               bounds.extend(place.geometry.location);
@@ -348,7 +340,6 @@ label{
           map.fitBounds(bounds);
           });
         }
-
 
       window.eqfeed_callback = function(results)
       {
@@ -393,20 +384,15 @@ label{
     </script>
 
       <script>
-    // Get the input field
-var input = document.getElementById("SB");
-
-// Execute a function when the user releases a key on the keyboard
-input.addEventListener("keyup", function(event) {
-// Cancel the default action, if needed
-event.preventDefault();
-// Number 13 is the "Enter" key on the keyboard
-if (event.keyCode === 13) {
-  // Trigger the button element with a click
-  document.getElementById("OrgNameSearchButton").click();
-}
-});
-</script>
+        var input = document.getElementById("SB");
+        input.addEventListener("keyup", function(event)
+        {
+        event.preventDefault();
+        if (event.keyCode === 13)
+        {
+          document.getElementById("OrgNameSearchButton").click();
+        }
+        });
+      </script>
   </body>
 </html>
-
